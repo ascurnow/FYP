@@ -1,0 +1,31 @@
+<html>
+
+<head>
+
+    <title>Student Index Page</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Index page for Student functions">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- This is a comment, by the way -->
+
+</head>
+
+<body>
+<h1>List of students</h1>
+{{range .}}
+<div>{{.Username}} - {{.Email}}</div>
+{{end}}
+
+
+<h2>Add Student</h2>
+<p><a href="students/add">Add Student</a></p>
+
+<h2>Edit Student</h2>
+<p><a href="students/edit">Edit Student</a></p>
+
+<h2>Remove Student</h2>
+<p><a href="students/remove">Remove Student</a></p>
+
+</body>
+</html>
