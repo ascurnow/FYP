@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Remove Student</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Remove student">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- This is a comment, by the way -->
+
+</head>
+
+  <body>
+    <H1>Student Removal </H1>
+    <p>Warning: This will remove {{.Username}} completely from the database. </p>
+    <H2>Student Info:</H2>
+    <p>{{.Username}} - {{.Email}}</p>
+    
+    <p>Are you sure you want to do this:</p>
+    <form method="POST" action="/students/remove/confirm">
+        <p><input type="value" name="studentName" value="{{.Username}}" hidden><p>
+        <p><input type="value" name="studentEmail" value="{{.Email}}" hidden><p>
+      <p><input type="radio" name="confirmDelete" value="TRUE">Yes</p>
+      <p><input type="radio" name="confirmDelete" value="FALSE" checked="checked">No</p>
+      <p><input type="submit" placeholder="Submit" value="Submit" formmethod="POST"></p>
+    </form>
+    
+    <p>Reminder: This will permanently remove the student.</p>
+  </body>
+</html>

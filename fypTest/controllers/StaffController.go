@@ -10,6 +10,7 @@ import (
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"net/http"
+	"strconv"
 )
 
 func PanicIf(err error) {
@@ -514,7 +515,7 @@ func StaffEditResultInUnitFinal(r render.Render, db *mgo.Database, rw http.Respo
 	grade := req.FormValue("StudentResult")
 	maxGrade := req.FormValue("MaxGrade")
 
-	fmt.Println(grade)
+	//fmt.Println(grade)
 
 	/* Calculate new exp */
 	exp := models.Experience(grade, maxGrade)
@@ -549,6 +550,8 @@ func StaffEditResultInUnitFinal(r render.Render, db *mgo.Database, rw http.Respo
 	}
 	/* Update student exp */
 	db.C("studentList").Find(bson.M{"username": studentname}).Apply(change2, &student)
+	/* Update Level */
+	student = models.Level(student.Username, db)
 
 	/* Clean up sessions */
 	s.Delete("quizname")
@@ -608,7 +611,6 @@ func StaffAddQuizToUnit(r render.Render, db *mgo.Database, rw http.ResponseWrite
 Function renders /stafAddQuizFinal
 Function takes the inputs from the form and adds the quiz, questions, and answers to the database.
 */
-
 func StaffAddQuizToUnitFinal(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
 	/* Create quiz and unit vars */
 	var quiz models.Quiz
@@ -685,4 +687,157 @@ func StaffRemoveQuiz(r render.Render, db *mgo.Database, rw http.ResponseWriter, 
 	db.C("quiz").Remove(bson.M{"UUID": quizuuid})
 
 	r.HTML(200, "Staff/staffRemoveQuiz", nil)
+}
+
+/*
+Function to render /addPoints
+This function should take from the form the username to add points to and provide the options for adding points to this profile
+*/
+func StaffAddPoints(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable to hold student info */
+	var student models.Student
+
+	/* Get username from form */
+	studentname := req.FormValue("UserForPoints")
+
+	/* Load student information */
+	db.C("studentList").Find(bson.M{"username": studentname}).One(&student)
+
+	r.HTML(200, "Staff/staffAddPoints", student)
+}
+
+/*
+Function to render /addPointsFinal
+Takes the points from the form and then updates the user's information.
+This function works with removing points as well.
+*/
+func StaffAddPointsFinal(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable to hold student info */
+	var student models.Student
+	var points float64
+
+	/* Get data from form */
+	studentname := req.FormValue("Username")
+	pointsString := req.FormValue("Points")
+
+	/* Convert string to float64 */
+	pointsInt, err := strconv.Atoi(pointsString)
+	PanicIf(err)
+	points = float64(pointsInt)
+
+	//fmt.Println(points)
+	/* Load student information */
+	db.C("studentList").Find(bson.M{"username": studentname}).One(&student)
+
+	//fmt.Println(student)
+	/* Update user points */
+	student.Points = student.Points + points
+
+	change := mgo.Change{
+		Update:    bson.M{"$set": bson.M{"points": student.Points}},
+		ReturnNew: true,
+	}
+	db.C("studentList").Find(bson.M{"username": student.Username}).Apply(change, &student)
+	//fmt.Println(student)
+
+	r.HTML(200, "Staff/staffAddPointsFinal", student)
+}
+
+/*
+Function to render /addExp
+Function takes the username and looks up the user's information
+*/
+func StaffAddExp(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable creation */
+	var student models.Student
+
+	/* Get Username */
+	username := req.FormValue("UserForExp")
+
+	/* Load user from database */
+	db.C("studentList").Find(bson.M{"username": username}).One(&student)
+
+	r.HTML(200, "Staff/staffAddExp", student)
+}
+
+/*
+Function to render /addExpFinal
+Takes the exp from the form and then updates the user's information.
+This function works with removing exp as well.
+*/
+func StaffAddExpFinal(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable to hold student info */
+	var student models.Student
+	var exp float64
+
+	/* Get data from form */
+	studentname := req.FormValue("Username")
+	expString := req.FormValue("Exp")
+
+	/* Convert string to float64 */
+	expInt, err := strconv.Atoi(expString)
+	PanicIf(err)
+	exp = float64(expInt)
+
+	/* Load student information */
+	db.C("studentList").Find(bson.M{"username": studentname}).One(&student)
+
+	/* Update user exp */
+	student.Exp = student.Exp + exp
+	
+
+	change := mgo.Change{
+		Update:    bson.M{"$set": bson.M{"exp": student.Exp}},
+		ReturnNew: true,
+	}
+	db.C("studentList").Find(bson.M{"username": student.Username}).Apply(change, &student)
+	
+	student = models.Level(student.Username, db)
+	//fmt.Println(student)
+
+	r.HTML(200, "Staff/staffAddExpFinal", student)
+}
+
+/*
+Function to render /addAchievement
+*/
+func StaffAddAchievement(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable creation */
+	var student models.Student
+
+	/* Get Username */
+	username := req.FormValue("UserForAchievement")
+
+	/* Load user from database */
+	db.C("studentList").Find(bson.M{"username": username}).One(&student)
+
+	r.HTML(200, "Staff/staffAddAchievement", student)
+}
+
+/*
+Function to render /addAchievementFinal
+This function should take the input from the form and then append it to the user's list of achievements
+*/
+func StaffAddAchievementFinal(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Variable creation */
+	var user models.Student
+
+	/* Get information from form */
+	username := req.FormValue("username")
+	achievementToAdd := req.FormValue("Achievement")
+
+	/* Load user from database */
+	db.C("studentList").Find(bson.M{"username": username}).One(&user)
+
+	/* Append new achievement to user achievements */
+	user.Achievements = append(user.Achievements, achievementToAdd)
+
+	/* Update user */
+	change := mgo.Change{
+		Update:    bson.M{"$set": bson.M{"achievements": user.Achievements}},
+		ReturnNew: true,
+	}
+	db.C("studentList").Find(bson.M{"username": user.Username}).Apply(change, &user)
+
+	r.HTML(200, "Staff/staffAddAchievementFinal", user)
 }

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Index Page</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Index page for Student functions">
+    
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- AdminLTE -->
+    <link href="css/AdminLTE.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Cookies! -->
+    <script src="js/cookies.js"></script> <!-- Cookie functions -->
+    <script src="js/cookies2.js"></script> <!-- Cookie2 -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body class="skin-blue wysihtml5-supported pace-done" style="min-height: 879px;">
+    
+    <header class="header">
+        <!-- Place header logo here: -->
+        <a>"GAMIFICATION!!!!"</a>
+            
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button -->
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li>
+                        <!-- Link to logout -->
+                        <a href="/logout">
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Link to homepage -->
+                        <a href="/staff_home">
+                            <span>Homepage</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Link to profile page:-->
+                        <a href="../../profile">
+                            <!-- Name of current user: -->
+                            <i>
+                                <span id='ANAME0'>User</span>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>    
+    </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left" style="min-height: 574px;">
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="left-side sidebar-offcanvas" style="min-height: 879px;">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left info">
+                        <!-- Sidebar profile -->
+                        <p> Hello, <b id='ANAME1'>User</b></p>
+                    </div>
+                </div>
+                <!-- sidebar menu: style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <!-- Home page Button -->
+                    <li>
+                        <a href="/staff_home">
+                            <span>Homepage</span>
+                        </a>
+                    </li>
+                    <!-- Profile Button -->
+                    <li>
+                        <a href="/profile">
+                            <span>My Profile </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/my_units">
+                            <span>Units</span>
+                        </a>
+                    </li>
+                    <!-- Logout Button -->
+                    <li>
+                        <a href="/logout">
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <aside class="right-side">
+            <!-- Content Header (Page Header) -->
+            <section class="content-header">
+                <h1>
+                    Student List
+					<small>
+					This is the staff student list page
+					</small>
+                </h1>
+            </section>
+            
+            <!-- Main Content -->
+            <section class="content">
+                <!-- Notifications Section: This is just to make the page look a bit better -->
+                <h4 class="page-header">Notifications</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<p>
+							This page contains a list of all users in the database along with available options for editing them.
+						</p>
+					</div>
+				</div>
+				<h4 class="page-header">List of students</h1>
+				<div class="row">
+					<div class="col-md-10">
+						<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<th>Username</th>
+									<th>Email</th>
+									<th>Units</th>
+								</tr>
+								{{range .}}
+								<tr>
+									<td>{{.Username}}</td>
+									<td>{{.Email}}</td>
+									{{range .Units}}
+									<td>{{.}}</td>
+									{{end}}
+								</tr>
+								{{end}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<h4 class="page-header">Add Student</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<p> If you would like to add a student please follow the link below:</p>
+						<p>
+							<a href="students/add">
+								<button type="submit" class="btn btn-primary">
+									Add Student
+								</button>
+							</a>
+						</p>
+					</div>
+				</div>
+				<h4 class="page-header">Edit Student</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="/edit">
+							<div class="form-group">
+								<select class="form-control" name="selectEditStudent">
+									{{range .}}
+										<option value="{{.Username}}">{{.Username}}</option>
+									{{end}}
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+				<h4 class="page-header">Remove Student</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="/students/remove">
+							<div class="form-group">
+								<select name="selectRemoveStudent" class="form-control">
+									{{ range.}}
+										<option value="{{.Username}}">{{.Username}}</option>
+									{{end}}
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+				<h4 class="page-header">Edit Points</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<p>Please select the student that you wish to add "altruism" points to.</p>
+						<p>
+							<form method="POST" action="/addPoints">
+								<div class="form-group">
+									<select class="form-control" name="UserForPoints">
+										{{range .}}
+											<option value="{{.Username}}">{{.Username}}</option>
+										{{end}}
+									</select>
+								</div>
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</form>
+						</p>
+					</div>
+				</div>
+				<h4 class="page-header">Edit Experience</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="/addExp">
+							<div class="form-group">
+								<select class="form-control" name="UserForExp">
+									{{range .}}
+										<option value="{{.Username}}">{{.Username}}</option>
+									{{end}}
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+				<h4 class="page-header">Add Achievement</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="/addAchievement">
+							<div class="form-group">
+								<select class="form-control" name="UserForAchievement">
+									{{range .}}
+										<option value="{{.Username}}">{{.Username}}</option>
+									{{end}}
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			</section>
+		</aside>
+	</div>
+</body>
+</html>

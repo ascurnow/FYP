@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Exp</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Add points to a student final">
+    
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- AdminLTE -->
+    <link href="css/AdminLTE.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Cookies! -->
+    <script src="js/cookies.js"></script> <!-- Cookie functions -->
+    <script src="js/cookies2.js"></script> <!-- Cookie2 -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body class="skin-blue wysihtml5-supported pace-done" style="min-height: 879px;">
+    
+    <header class="header">
+        <!-- Place header logo here: -->
+        <a>"GAMIFICATION!!!!"</a>
+            
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button -->
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li>
+                        <!-- Link to logout -->
+                        <a href="/logout">
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Link to homepage -->
+                        <a href="/staff_home">
+                            <span>Homepage</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Link to profile page:-->
+                        <a href="../../profile">
+                            <!-- Name of current user: -->
+                            <i>
+                                <span id='ANAME0'>User</span>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>    
+    </header>
+    
+    <div class="wrapper row-offcanvas row-offcanvas-left" style="min-height: 574px;">
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="left-side sidebar-offcanvas" style="min-height: 879px;">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left info">
+                        <!-- Sidebar profile -->
+                        <p> Hello, <b id='ANAME1'>User</b></p>
+                    </div>
+                </div>
+                <!-- sidebar menu: style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <!-- Home page Button -->
+                    <li>
+                        <a href="/staff_home">
+                            <span>Homepage</span>
+                        </a>
+                    </li>
+                    <!-- Profile Button -->
+                    <li>
+                        <a href="/profile">
+                            <span>My Profile </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/my_units">
+                            <span>Units</span>
+                        </a>
+                    </li>
+                    <!-- Logout Button -->
+                    <li>
+                        <a href="/logout">
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        
+        <aside class="right-side">
+            <!-- Content Header (Page Header) -->
+            <section class="content-header">
+                <h1>
+                    Edit Experience
+                    <small>
+                        this is where you can edit the student's experience
+                    </small>
+                </h1>
+            </section>
+            <!-- Main Content -->
+            <section class="content">
+                <!-- Notifications Section: This is just to make the page look a bit better -->
+                <h4 class="page-header">Points added</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>{{.Username}}'s experience has been now been changed. {{.Username}} now has {{.Exp}} experience and is level {{.Level}}</p>
+						<p>
+                            <a href="/staff_home">
+                                <span>Return to homepage</span>
+                            </a>                            
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </div>
+</body>
+</html>
