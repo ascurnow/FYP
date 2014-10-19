@@ -35,6 +35,7 @@ func PostLogin(rw http.ResponseWriter, req *http.Request, db *mgo.Database, s se
 	s.Set("userName", user.Username)
 	//fmt.Println(user.UUID)
 	s.Set("userId", user.UUID)
+	s.Set("Staff", user.Staff)
 
 	//test := s.Get("userName")
 	//fmt.Println(test)
@@ -81,7 +82,6 @@ func SignupPost(rw http.ResponseWriter, req *http.Request, db *mgo.Database) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	/* Create unique id */
-
 	uuId := GetMD5Hash(name + password)
 
 	PanicIf(err)

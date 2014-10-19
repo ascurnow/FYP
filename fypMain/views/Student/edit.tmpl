@@ -53,9 +53,9 @@
                     </li>
                     <li>
                         <!-- Link to profile page: THIS needs to be set up correctly still -->
-                        <a href="../../quiz">
+                        <a href="/profile">
                             <!-- Name of current user: THIS IS NOT DONE YET UPDATE THIS TO WORK -->
-                            <i class="fa fa-dashboard">
+                            <i>
                                 <span id='ANAME0'>User</span>
                             </i>
                         </a>
@@ -92,14 +92,14 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/my_units">
                             <span>Units</span>
                         </a>
                     </li>
                     <!-- Logout Button -->
                     <li>
                         <a href="/logout">
-                            <span>logout</span>
+                            <span>Logout</span>
                         </a>
                     </li>
                 </ul>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="box-body">
                             <p>
-                                This page is utlized for editing the detials of the selected student. The student currently being edited is : {{.Username}}.
+                                This page is utilized for editing the details of the selected student. The student currently being edited is : {{.Username}}.
                             </p>
                             <p>
                               Name: {{.Username}}  
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="page-header">{{.Username}}'s Editiable Areas:</h4>
+                <h4 class="page-header">{{.Username}}'s Editable Areas:</h4>
                 <!-- Form for editing the student's details -->
                 <div class="row">
                     <div class="col-md4">
@@ -183,7 +183,14 @@
                 <h4 class="page-header">Add Units: Please select all units for the student to be enrolled in</h4>
                 <div class="row">
                     <div class="col-md4">
-                        <p> update this to be a link to the units add page</p>
+						<p>
+							<form method="POST" action="/addUnitsToStudent">
+								<div class="form-group">
+									<input type="value" name="username" value="{{.Username}}" hidden>
+									<button type="submit" class="btn btn-primary">Add units</button>
+								</div>
+							</form>
+						</p>
                     </div>
                 </div>  
             </section>

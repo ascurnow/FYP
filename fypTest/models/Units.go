@@ -25,7 +25,6 @@ func GetAllUnits(db *mgo.Database) []Unit {
 
 /*
 Function to remove a student from the unit
-NOTE that this also removes the unit from the students list
 */
 func RemoveStudentFromUnit(unitname string, student string, db *mgo.Database) {
 	/* Create Variables */

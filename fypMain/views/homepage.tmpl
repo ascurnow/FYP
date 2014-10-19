@@ -48,9 +48,9 @@
                         </a>
                     </li>
                     <li>
-                        <!-- Link to profile page: THIS needs to be set up correctly still -->
+                        <!-- Link to profile page: -->
                         <a href="/profile">
-                            <!-- Name of current user: THIS IS NOT DONE YET UPDATE THIS TO WORK -->
+                            <!-- Name of current user: -->
                             <i>
                                 <span id='ANAME0'>Profile</span>
                             </i>
@@ -136,9 +136,9 @@
                             <!-- Box Body -->
                             <div class="box-body">
                                 <p>
-                                    <form method="POST" action="/unit">
+                                    <form method="POST" action="/unitStudent">
 										<div class="form-group">
-											<input class="form-control" name="selectUnit" placeholder="{{.}}" readonly="true">
+											<input class="form-control" name="selectUnit" placeholder="{{.}}" readonly="true" value="{{.}}">
 										</div>
 										<button type="submit" class="btn btn-primary">Go to Unit</button>
 									</form>

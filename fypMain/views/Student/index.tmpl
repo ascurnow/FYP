@@ -149,19 +149,6 @@
 						</table>
 					</div>
 				</div>
-				<h4 class="page-header">Add Student</h4>
-				<div class="row">
-					<div class="col-md-6">
-						<p> If you would like to add a student please follow the link below:</p>
-						<p>
-							<a href="students/add">
-								<button type="submit" class="btn btn-primary">
-									Add Student
-								</button>
-							</a>
-						</p>
-					</div>
-				</div>
 				<h4 class="page-header">Edit Student</h4>
 				<div class="row">
 					<div class="col-md-6">
@@ -180,7 +167,7 @@
 				<h4 class="page-header">Remove Student</h4>
 				<div class="row">
 					<div class="col-md-6">
-						<form method="POST" action="/students/remove">
+						<form method="POST" action="/remove">
 							<div class="form-group">
 								<select name="selectRemoveStudent" class="form-control">
 									{{ range.}}
@@ -231,6 +218,21 @@
 						<form method="POST" action="/addAchievement">
 							<div class="form-group">
 								<select class="form-control" name="UserForAchievement">
+									{{range .}}
+										<option value="{{.Username}}">{{.Username}}</option>
+									{{end}}
+								</select>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+				<h4 class="page-header">Select User to view:</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="POST" action="/profile">
+							<div class="form-group">
+								<select class="form-control" name="username">
 									{{range .}}
 										<option value="{{.Username}}">{{.Username}}</option>
 									{{end}}

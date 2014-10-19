@@ -3,14 +3,14 @@ package controllers
 
 import (
 	"FYP/fypTest/models"
-	"fmt"
-	//"github.com/go-martini/martini"
+	//"fmt"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func PanicIf(err error) {
@@ -32,7 +32,7 @@ func StaffUnitList(r render.Render, db *mgo.Database) {
 
 /*
 Function to render the staff homepage.
-This function redners /staff_home page.
+This function redners /staff_home page.+
 The page requires a list of the units that the staff member is a member of.
 */
 func StaffHomePage(r render.Render, db *mgo.Database, s sessions.Session) {
@@ -183,6 +183,7 @@ func StaffAddStudentToUnit(r render.Render, db *mgo.Database, rw http.ResponseWr
 
 	/* Load all students */
 	err = db.C("studentList").Find(nil).All(&studentList)
+	PanicIf(err)
 
 	/* Loop over student list and find the students not in the unit */
 	for i := range studentList {
@@ -197,13 +198,6 @@ func StaffAddStudentToUnit(r render.Render, db *mgo.Database, rw http.ResponseWr
 		}
 		studentFound = false /* Reset flag */
 	}
-	/* Loop over UUID's in studentsNotInUnit and find their username */
-	/*for k := range studentsNotInUnit {
-		err = db.C("studentList").Find(bson.M{"username": studentsNotInUnit[k]}).One(&studentToAdd)
-		PanicIf(err)
-		studentsNotInUnitName = append(studentsNotInUnitName, studentToAdd.Username)
-		fmt.Println(studentsNotInUnitName)
-	}*/
 
 	studentsToAdd.Unitname = unit.Unitname
 	studentsToAdd.Students = studentsNotInUnit
@@ -211,7 +205,6 @@ func StaffAddStudentToUnit(r render.Render, db *mgo.Database, rw http.ResponseWr
 	//fmt.Println(stufftoadd)
 	//fmt.Println(studentsNotInUnit)
 	//fmt.Println(err)
-	PanicIf(err)
 
 	r.HTML(200, "Staff/staffAddStudentToUnitPage", studentsToAdd)
 }
@@ -374,7 +367,9 @@ func StaffQuizPage(r render.Render, db *mgo.Database, rw http.ResponseWriter, re
 		//nameArray = results[i].Studentname
 		temp := studentData{Unitname: results[i].Unit, Quizname: quizName, Maxgrade: results[i].Maxgrade, Result: results[i].Score, Studentname: results[i].Studentname, Exp: results[i].Exp, UUID: results[i].UUID}
 		Data = append(Data, temp)
+
 	}
+	//fmt.Println(Data)
 
 	/* If no results return just the quizname */
 	if len(results) == 0 {
@@ -387,9 +382,6 @@ func StaffQuizPage(r render.Render, db *mgo.Database, rw http.ResponseWriter, re
 	} else { /* Send data struct */
 		r.HTML(200, "Staff/staffQuizPage", Data)
 	}
-
-	//fmt.Println(Data)
-
 }
 
 /*
@@ -405,14 +397,16 @@ Page has a form that collects the following:
 - Score/Result
 */
 func StaffAddQuizResult(r render.Render, db *mgo.Database, rw http.ResponseWriter, req *http.Request) {
+	/* Create Variable */
+	var quiz models.Quiz
+
 	/* Get quizuuid and name from the form */
 	quizname := req.FormValue("quizname")
 
 	//fmt.Println(quizuuid)
 	//fmt.Println(quizname)
 	/* Look up quiz - find max_grade and Unitname. */
-	maxGrade := "10"       // Temp hard code
-	unitName := "FIT 1029" //Temp hard code
+	db.C("quiz").Find(bson.M{"quizname": quizname}).One(&quiz)
 
 	/* Create data structure */
 	quizData := struct {
@@ -421,8 +415,8 @@ func StaffAddQuizResult(r render.Render, db *mgo.Database, rw http.ResponseWrite
 		Unitname string `form:"Unitname"`
 	}{
 		quizname,
-		maxGrade,
-		unitName,
+		quiz.Maxgrade,
+		quiz.Unitname,
 	}
 	//fmt.Println(quizData)
 
@@ -460,7 +454,7 @@ func StaffAddQuizResultFinal(r render.Render, db *mgo.Database, rw http.Response
 	var student models.Student
 	/* Look up student's current XP */
 	db.C("studentList").Find(bson.M{"username": studentName}).One(&student)
-	fmt.Println(student)
+	//fmt.Println(student)
 
 	exp = student.Exp + exp
 
@@ -470,9 +464,8 @@ func StaffAddQuizResultFinal(r render.Render, db *mgo.Database, rw http.Response
 	}
 	db.C("studentList").Find(bson.M{"username": studentName}).Apply(change, &student)
 
-	/* Run EXP checker function to udpate achievements etc */
-	/* TODO Check LEVEL */
-	/* TODO CHECK ACHIEVEMENTS */
+	/* Run EXP checker function */
+	models.Level(studentName, db)
 
 	/* Go to staff home page */
 	http.Redirect(rw, req, "/staff_home", http.StatusFound)
@@ -519,7 +512,7 @@ func StaffEditResultInUnitFinal(r render.Render, db *mgo.Database, rw http.Respo
 
 	/* Calculate new exp */
 	exp := models.Experience(grade, maxGrade)
-	fmt.Println(exp)
+	//fmt.Println(exp)
 
 	var oldResult models.Result
 
@@ -586,7 +579,7 @@ func StaffAddQuizToUnit(r render.Render, db *mgo.Database, rw http.ResponseWrite
 	quiz.Quizname = quizname
 	quiz.UUID = quizuuid
 
-	fmt.Println(quiz)
+	//fmt.Println(quiz)
 
 	/* Check if this a duplicate UUID */
 	db.C("quizzes").Find(bson.M{"unitname": unitname}).All(&checkQuiz)
@@ -621,12 +614,29 @@ func StaffAddQuizToUnitFinal(r render.Render, db *mgo.Database, rw http.Response
 	quizuuid := req.FormValue("UUID")
 	unitname := req.FormValue("Unitname")
 	maxgrade := req.FormValue("MaxGrade")
+	numquestions := req.FormValue("NumberQ")
+	questionsForm := req.FormValue("Questions")
+	answerForm := req.FormValue("Answers")
+
+	/* Process Numquestions */
+	numq, err1 := strconv.Atoi(numquestions)
+	PanicIf(err1)
 
 	/* Update quiz variable */
 	quiz.Quizname = quizname
 	quiz.Unitname = unitname
 	quiz.Maxgrade = maxgrade
 	quiz.UUID = quizuuid
+	quiz.Numquestions = numq
+
+	/* Process questions */
+	questions := strings.Split(questionsForm, ";")
+	/* Process answers */
+	answers := strings.Split(answerForm, ";")
+
+	/* Update quiz variable */
+	quiz.Questions = questions
+	quiz.Answers = answers
 
 	/* Store quiz in database */
 	db.C("quiz").Insert(quiz)
@@ -643,10 +653,6 @@ func StaffAddQuizToUnitFinal(r render.Render, db *mgo.Database, rw http.Response
 	}
 	/* Update Unit information with new quiz */
 	db.C("units").Find(bson.M{"unitname": unitname}).Apply(change, &unit)
-
-	/* Process and store questions in database */
-
-	/* Process and store answers in database */
 
 	r.HTML(200, "Staff/staffAddQuizToUnitFinal", nil)
 }
@@ -784,14 +790,13 @@ func StaffAddExpFinal(r render.Render, db *mgo.Database, rw http.ResponseWriter,
 
 	/* Update user exp */
 	student.Exp = student.Exp + exp
-	
 
 	change := mgo.Change{
 		Update:    bson.M{"$set": bson.M{"exp": student.Exp}},
 		ReturnNew: true,
 	}
 	db.C("studentList").Find(bson.M{"username": student.Username}).Apply(change, &student)
-	
+
 	student = models.Level(student.Username, db)
 	//fmt.Println(student)
 

@@ -3,11 +3,8 @@ package main
 
 import (
 	"FYP/fypTest/controllers"
-	//"FYP/fypTest/models"
 	"github.com/go-martini/martini"
-	//"github.com/martini-contrib/binding"
 	"github.com/martini-contrib/render"
-	//"github.com/martini-contrib/sessionauth"
 	"github.com/martini-contrib/sessions"
 	"labix.org/v2/mgo"
 )
@@ -38,11 +35,8 @@ func main() {
 	// Set Up Session
 	store := sessions.NewCookieStore([]byte("secret123"))
 	m.Use(sessions.Sessions("server_session", store))
-	//m.Use(sessionauth.Sessionuser(GenerateAnonymousUser))
-	//sessionauth.RedirectUrl = "/new-login"
-	//sessionauth.RedirectParam = "new-next"
 
-	// Function calls
+	/* Function calls */
 
 	// Login Functions
 	m.Get("/", controllers.RequireLogin)
@@ -53,13 +47,18 @@ func main() {
 	m.Post("/signup", controllers.SignupPost)
 
 	// Student Controller Functions
+	m.Get("/home", controllers.StudentHomePage)
 	m.Get("/students", controllers.StudentIndex)
 	m.Post("/edit", controllers.StudentEdit)
 	m.Post("/students/updateUser", controllers.StudentUpdate)
-	m.Get("/students/add", controllers.StudentAddPage)
-	m.Post("/students/remove", controllers.StudentRemovePage)
-	m.Post("/students/remove/confirm", controllers.StudentRemove)
-	m.Post("/students/add/new", controllers.StudentAdd)
+	m.Post("/remove", controllers.StudentRemovePage)
+	m.Post("/removeConfirm", controllers.StudentRemove)
+	m.Post("/unitStudent", controllers.StudentUnit)
+	m.Post("/studentQuizPage", controllers.StudentQuizPage)
+	m.Get("/studentlist", controllers.StudentList)
+	m.Post("/quiz", controllers.StudentQuiz)
+	m.Post("/addUnitsToStudent", controllers.StudentAddUnits)
+	m.Post("/addUnitsToStudentFinal", controllers.StudentAddUnitsFinal)
 
 	// Staff Controller Functions
 	m.Get("/staff_home", controllers.StaffHomePage)
@@ -89,11 +88,8 @@ func main() {
 	m.Get("/editProfilePage", controllers.UserProfileEdit)
 	m.Post("/editProfileFinal", controllers.UserProfileEditFinal)
 	m.Get("/profile", controllers.ProfilePersonal) /* On a get go to personal profile page */
-	//m.Post("/profile", controllers.Profile) /* On a post load from form the profile to see */
+	m.Post("/profile", controllers.Profile)        /* On a post load from form the profile to see */
 	m.Get("/purchaseTitle", controllers.PurchaseTitle)
-
-	// Homepage - Student
-	m.Get("/home", controllers.StudentHomePage)
 
 	m.Use(martini.Static("assets"))
 

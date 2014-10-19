@@ -3,9 +3,9 @@
 
 <head>
 
-    <title>My Units</title>
+    <title>Add Quiz</title>
     <meta charset="utf-8">
-    <meta name="description" content="My Units">
+    <meta name="description" content="Add Quiz">
     
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -120,7 +120,7 @@
             <!-- Main Content -->
             <section class="content">
                 <!-- Notifications Section: This is just to make the page look a bit better -->
-                <h4 class="page-header">Notifictations</h4>
+                <h4 class="page-header">Notifications</h4>
                 <div class="row">
                     <div class="col-md-12">
                         <p>
@@ -147,12 +147,12 @@
                                     <p><input class="form-control" name="Unitname" value="{{.Unitname}}" readonly="true"></p>
                                     <label>Maximum Grade : </label>
                                     <p><input class="form-control" name="MaxGrade" placeholder="10"></p>
-                                    <label>Questions : please write in the form of "Q1", "Q2"... </label>
+									<label>Number of Questions : </label>
+									<p><input class="form-control" name="NumberQ" placeholder="Enter the number of questions"></p>
+                                    <label>Questions : please write in the form of Q1;Q2;Q3... </label>
                                     <p><textarea class="form-control" name="Questions" placeholder="What is a question?" rows=3></textarea>
-                                    <label>Answers: please use the form "A1", "A2", "A3"; "A1", "A2"; ...</label>
+                                    <label>Answers: please use the form A1;A2;A3</label>
                                     <p><textarea class="form-control" name="Answers" placeholder="Answers here please" rows=3></textarea>
-                                    <label>Correct Answers: please use the form "Pos1", "Pos3"... (starts from 0)</label>
-                                    <p><textarea class="form-control" name="CorrectAnswer" placeholder="Correct Answer" rows=3></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     Submit

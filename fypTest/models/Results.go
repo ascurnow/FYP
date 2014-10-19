@@ -13,9 +13,9 @@ type Result struct {
 	Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	UUID        string        `bson:"UUID"`
 	Quizuuid    string        `bson:"QUUID"`
-	Quiz        string        `form:"QuizName"`
-	Unit        string        `form:"UnitName"`
-	Studentname string        `form:"StudentName"`
+	Quiz        string        `form:"Quizname"`
+	Unit        string        `form:"Unitname"`
+	Studentname string        `form:"Studentname"`
 	Score       string        `form:"10"`
 	Maxgrade    string        `form:"10"`
 	Exp         float64       `form:25`

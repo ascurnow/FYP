@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li>
-                        <!-- Link to profile page: THIS needs to be set up correctly still -->
+                        <!-- Link to profile page: -->
                         <a href="/profile">
                             <!-- Name of current user: -->
                             <i>
@@ -127,7 +127,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="box-body">
-                            <table class="table table-bordered">
+                            <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <th style="width: 30px">Unit Name</th>
@@ -147,7 +147,7 @@
                 <h4 class="page-header">Select Unit to go to:</h4>
                 <div class="row">
                     <div class="col-md-2">
-                        <form method="POST" action="/unit">
+                        <form method="POST" action="/unitStudent">
                             <div class="form-group">
                                 <select class="form-control" name="selectUnit">
                                 {{range .Units}}
@@ -156,25 +156,6 @@
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-                <h4 class="page-header">Create New Unit:</h4>
-                <div class="row">
-                    <div class="col-md-5">
-                        <p>
-                            In order to create a new unit please enter the unit code below:
-                        </p>
-                        <form role="form" method="POST" action="/staffCreateUnit">
-                            <div class="form-group">
-                                <label>
-                                    Unit Code:
-                                </label>
-                                <input class="form-control" name="unitCode" placeholder="Unit Code" autofocus>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
                         </form>
                     </div>
                 </div>

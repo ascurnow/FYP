@@ -3,9 +3,9 @@
 
 <head>
 
-    <title>Update Student</title>
+    <title>Update User</title>
     <meta charset="utf-8">
-    <meta name="description" content="Edit Student Details">
+    <meta name="description" content="Edit User Details">
     
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -13,6 +13,9 @@
     <link href="css/AdminLTE.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Cookies! -->
+    <script src="js/cookies.js"></script> <!-- Cookie functions -->
+    <script src="js/cookies2.js"></script> <!-- Cookie2 -->
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -49,11 +52,11 @@
                         </a>
                     </li>
                     <li>
-                        <!-- Link to profile page: THIS needs to be set up correctly still -->
-                        <a href="../../quiz">
-                            <!-- Name of current user: THIS IS NOT DONE YET UPDATE THIS TO WORK -->
+                        <!-- Link to profile page: -->
+                        <a href="../../profile">
+                            <!-- Name of current user: -->
                             <i>
-                                <span>Profile</span>
+                                <span id='ANAME0'>User</span>
                             </i>
                         </a>
                     </li>
@@ -70,8 +73,8 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left info">
-                        <!-- Sidebar profile NEED TO UPDATE TO SHOW USERNAME NOT USER -->
-                        <p> Hello, user</p>
+                        <!-- Sidebar profile -->
+                        <p> Hello, <b id='ANAME1'>User</b></p>
                     </div>
                 </div>
                 <!-- sidebar menu: style can be found in sidebar.less -->
@@ -96,7 +99,7 @@
                     <!-- Logout Button -->
                     <li>
                         <a href="/logout">
-                            <span>logout</span>
+                            <span>Logout</span>
                         </a>
                     </li>
                 </ul>
@@ -115,14 +118,6 @@
             </section>
 
 <body>
-    
-    <p> Student Updated </p>
-    <p> Student details are now: </p>
-    <p> {{.Username}} - {{.Email}}
-    <p> <a href="/students">Back to students index</a></p>
-</body>
-
-
             <!-- Main Content -->
             <section class="content">
                 <!-- Editing Section -->
@@ -134,7 +129,7 @@
                         </div>
                         <div class="box-body">
                             <p>
-                                This page is utlized for editing the detials of the selected student. The student currently being edited is : {{.Username}}.
+                                This page is utilized for editing the details of the selected student. The student currently being edited is : {{.Username}}.
                             </p>
                         </div>
                     </div>
