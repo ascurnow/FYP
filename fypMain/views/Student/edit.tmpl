@@ -169,11 +169,11 @@
                             <!-- Box Body -->
                             <div class="box-body">
                                 <p>
-                                    <form action="/students/updateUser" method="POST" class="pure-form">
+                                    <form action="/updateUser" method="POST" class="pure-form">
                                           <input type="text" name="name" value="{{.Username}}" hidden/>
                                           <p>Email: <input type="email" name="email" value="{{.Email}}" /></p>
                                           <p>Staff Status: <input type="staff" name="staff" value="{{.Staff}}"/></p>
-                                          <input type="submit" value="submit" class="pure-button pure-button-primary" formmethod="POST" formaction="/students/updateUser">
+                                          <input type="submit" value="submit" class="pure-button pure-button-primary" formmethod="POST" formaction="/updateUser">
                                         </form>
                                 </p>
                             </div>

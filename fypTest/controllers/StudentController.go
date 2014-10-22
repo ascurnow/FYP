@@ -82,7 +82,7 @@ func StudentRemovePage(r render.Render, db *mgo.Database, req *http.Request) {
 	var studentToRemove models.Student
 	name := req.FormValue("selectRemoveStudent")
 	//println(name)
-	//println(bson.M{"Username": "blah2"})
+
 	db.C("studentList").Find(bson.M{"username": name}).One(&studentToRemove)
 	//println(studentToRemove.Username)
 	r.HTML(200, "Student/remove", studentToRemove)

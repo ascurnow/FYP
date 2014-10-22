@@ -116,48 +116,24 @@
                     </small>
                 </h1>
             </section>
-
-<body>
+        <aside class="right-side">
+            <!-- Content Header (Page Header) -->
+            <section class="content-header">
+                <h1>
+                    Update Student
+                    <small>
+                        student details are now as follows
+                    </small>
+                </h1>
+            </section>
             <!-- Main Content -->
             <section class="content">
                 <!-- Editing Section -->
                 <div class="row">
-                    <!-- Made using Info Box -->
-                    <div class="box box-solid box-primary">
-                        <div class="box-Header">
-                            <h3 class="box-title">Student Information: {{.Username}}</h3>
-                        </div>
-                        <div class="box-body">
-                            <p>
-                                This page is utilized for editing the details of the selected student. The student currently being edited is : {{.Username}}.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <h4 class="page-header">{{.Username}}'s Editiable Areas:</h4>
-                <!-- Form for editing the student's details -->
-                <div class="row">
-                    <div class="col-md4">
-                        <!-- Primary Box -->
-                        <div class="box box-solid box-primary">
-                            <!-- Box Header -->
-                            <div class="box-header">
-                                <h3 class="box-title">{{.Username}}</h3>
-                            </div>
-                            <!-- Box Body -->
-                            <div class="box-body">
-                                <p>
-                                    <form action="/students/updateUser" method="POST" class="pure-form">
-                                          <input type="text" name="name" value="{{.Username}}" hidden/>
-                                          <p>Email: <input type="email" name="email" value="{{.Email}}" /></p>
-                                          <p>Staff Status: <input type="staff" name="staff" value="{{.Staff}}"/></p>
-                                          <p>Add Unit: <input type="unit" name="unit" value=""/></p>
-                                          <input type="submit" value="submit" class="pure-button pure-button-primary" formmethod="POST" formaction="/students/updateUser">
-                                        </form>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="col-md-6">
+						Thank you for editing the student's information.
+						<p> <a href="/ascur2/staff_home">Homepage</a></p>						
+					</div>
                 </div>
             </section>
         </aside>
