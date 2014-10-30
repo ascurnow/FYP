@@ -3,7 +3,7 @@ package controllers
 
 import (
 	"FYP/fypTest/models"
-	"fmt"
+	//"fmt"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
 	"labix.org/v2/mgo"
@@ -865,26 +865,34 @@ func StaffDeleteUnit(r render.Render, db *mgo.Database, rw http.ResponseWriter, 
 	db.C("studentList").Find(bson.M{"units": unitname}).All(&students)
 	//fmt.Println(students)
 
-	/* Remove unit from user's unit list */
-	for i := range students {
-		student = students[i]
-		//fmt.Println(student)
-		for j := range student.Units {
-			//fmt.Println(student.Units[j])
-			if student.Units[j] == unitname {
-				student.Units = student.Units[:j+copy(student.Units[j:], student.Units[j+1:])]
+	/* If no students delete unit */
+	if len(students) == 0 {
+		/* Delete unit from database */
+		db.C("units").Remove(bson.M{"unitname": unitname})
+
+		r.HTML(200, "Staff/staffUnitDelete", nil)
+	} else {
+		/* Remove unit from user's unit list */
+		for i := range students {
+			student = students[i]
+			//fmt.Println(student)
+			for j := range student.Units {
+				//fmt.Println(student.Units[j])
+				if student.Units[j] == unitname {
+					student.Units = student.Units[:j+copy(student.Units[j:], student.Units[j+1:])]
+				}
 			}
+			/* Update Unit's Student List */
+			change := mgo.Change{
+				Update:    bson.M{"$set": bson.M{"units": student.Units}},
+				ReturnNew: true,
+			}
+			db.C("studentList").Find(bson.M{"username": student.Username}).Apply(change, &student)
 		}
-		/* Update Unit's Student List */
-		change := mgo.Change{
-			Update:    bson.M{"$set": bson.M{"units": student.Units}},
-			ReturnNew: true,
-		}
-		db.C("studentList").Find(bson.M{"username": student.Username}).Apply(change, &student)
+
+		/* Delete unit from database */
+		db.C("units").Remove(bson.M{"unitname": unitname})
+
+		r.HTML(200, "Staff/staffUnitDelete", nil)
 	}
-
-	/* Delete unit from database */
-	db.C("units").Remove(bson.M{"unitname": unitname})
-
-	r.HTML(200, "Staff/staffUnitDelete", nil)
 }
