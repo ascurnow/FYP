@@ -83,6 +83,7 @@ func main() {
 	m.Post("/addExpFinal", controllers.StaffAddExpFinal)
 	m.Post("/addAchievement", controllers.StaffAddAchievement)
 	m.Post("/addAchievementFinal", controllers.StaffAddAchievementFinal)
+	m.Post("/deleteUnit", controllers.StaffDeleteUnit)
 
 	/* Profile Page */
 	m.Get("/editProfilePage", controllers.UserProfileEdit)

@@ -91,7 +91,7 @@
                             <span>My Profile </span>
                         </a>
                     </li>
-                    <li class="treeview">
+                    <li>
                         <a href="/my_units">
                             <span>Units</span>
                         </a>
@@ -110,10 +110,7 @@
             <!-- Content Header (Page Header) -->
             <section class="content-header">
                 <h1>
-                    Unit List
-                    <small>
-                        this is a list of all units in the database
-                    </small>
+                    Unit Deleted
                 </h1>
             </section>
             
@@ -123,78 +120,12 @@
                 <h4 class="page-header">Notifications</h4>
                 <div class="row">
                     <div class="col-md-6">
-                        <p>This page shows all of the units currently in the database and allows you to navigate to them.</p>
+                        <p>Thank you for deleting the unit.</p>
+                        <a href="/staff_home">
+                            <span>Return to homepage</span>
+                        </a>						
                     </div>
                 </div>
-                <h4 class="page-header">Available Units</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="box-body">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th style="width: 30px">Unit Name</th>
-                                    {{range .}}
-                                    <tr>
-                                        <td>
-                                            {{.Unitname}}
-                                        </td>
-                                    </tr>
-                                    {{end}}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <h4 class="page-header">Select Unit to go to:</h4>
-                <div class="row">
-                    <div class="col-md-2">
-                        <form method="POST" action="/unit">
-                            <div class="form-group">
-                                <select class="form-control" name="selectUnit">
-                                {{range .}}
-                                    <option value="{{.Unitname}}">{{.Unitname}}</option>
-                                {{end}}
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-				<h4 class="page-header">Select Unit to delete:</h4>
-				<div class="row">
-					<div class="col-md-2">
-						<form method="POST" action="/deleteUnit">
-							<div class="form-group">
-								<select class="form-control" name="unitDel">
-									{{range .}}
-										<option value="{{.Unitname}}">{{.Unitname}}</option>
-									{{end}}
-								</select>
-							</div>
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</form>
-					</div>
-				</div>
-                <h4 class="page-header">Create New Unit:</h4>
-                <div class="row">
-                    <div class="col-md-5">
-                        <p>
-                            In order to create a new unit please enter the unit code below:
-                        </p>
-                        <form role="form" method="POST" action="/staffCreateUnit">
-                            <div class="form-group">
-                                <label>
-                                    Unit Code:
-                                </label>
-                                <input class="form-control" name="unitCode" placeholder="Unit Code" autofocus>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
-                        </form>
-                    </div>
-                </div>				
             </section>
         </aside>
     </div>
